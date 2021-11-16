@@ -29,7 +29,7 @@ const parseArgs = (args: string[]): TargetAndHours => {
     throw new Error('Not all provided values were numbers!');
 };
 
-const calculateExercises = (target: number, hours: number[]): Result => {
+export const calculateExercises = (target: number, hours: number[]): Result => {
     const periodLength: number = hours.length;
     const trainingDays: number = hours.filter(hour => hour).length;
     const average: number = hours.reduce((acc, hour) => acc + hour, 0) / periodLength;
