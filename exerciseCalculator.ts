@@ -18,16 +18,16 @@ const parseArgs = (args: string[]): TargetAndHours => {
     const allParamsAreNumbers = args.slice(2).every(p => !isNaN(Number(p)));
 
     if (allParamsAreNumbers) {
-        const hours = args.slice(3).map(p => Number(p))
+        const hours = args.slice(3).map(p => Number(p));
 
         return {
             target: Number(args[2]),
             hours
-        }
+        };
     }
     
     throw new Error('Not all provided values were numbers!');
-}
+};
 
 const calculateExercises = (target: number, hours: number[]): Result => {
     const periodLength: number = hours.length;
@@ -68,7 +68,7 @@ const calculateExercises = (target: number, hours: number[]): Result => {
             ratingDescription = 'Maybe you should think your target over';
             break; 
         default:
-            ratingDescription = 'Either you want to workout or do something else'
+            ratingDescription = 'Either you want to workout or do something else';
     }
 
     return {
@@ -79,16 +79,16 @@ const calculateExercises = (target: number, hours: number[]): Result => {
         ratingDescription,
         target,
         average
-      }
+      };
 };
 
 try {
-    const { target, hours } = parseArgs(process.argv)
-    console.log(calculateExercises(target, hours))
+    const { target, hours } = parseArgs(process.argv);
+    console.log(calculateExercises(target, hours));
 } catch (error: unknown) {
-    let errorMessage: string = 'Something went wrong.';
+    let errorMessage = 'Something went wrong.';
     if (error instanceof Error) {
-        errorMessage += ` Error: ${error.message}`
+        errorMessage += ` Error: ${error.message}`;
     }
-    console.log(errorMessage)
+    console.log(errorMessage);
 }
