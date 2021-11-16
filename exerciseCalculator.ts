@@ -8,7 +8,28 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (hours: number[], target: number): Result => {
+interface TargetAndHours {
+    target: number;
+    hours: number[];
+}
+
+const parseArgs = (args: string[]): TargetAndHours => {
+
+    const allParamsAreNumbers = args.slice(2).every(p => !isNaN(Number(p)));
+
+    if (allParamsAreNumbers) {
+        const hours = args.slice(3).map(p => Number(p))
+
+        return {
+            target: Number(args[2]),
+            hours
+        }
+    }
+    
+    throw new Error('Not all provided values were numbers!');
+}
+
+const calculateExercises = (target: number, hours: number[]): Result => {
     const periodLength: number = hours.length;
     const trainingDays: number = hours.filter(hour => hour).length;
     const average: number = hours.reduce((acc, hour) => acc + hour, 0) / periodLength;
@@ -61,4 +82,13 @@ const calculateExercises = (hours: number[], target: number): Result => {
       }
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+    const { target, hours } = parseArgs(process.argv)
+    console.log(calculateExercises(target, hours))
+} catch (error: unknown) {
+    let errorMessage: string = 'Something went wrong.';
+    if (error instanceof Error) {
+        errorMessage += ` Error: ${error.message}`
+    }
+    console.log(errorMessage)
+}
